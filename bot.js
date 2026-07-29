@@ -1,8 +1,4 @@
-/**
- * PROFESSIONAL Telegram Bot: Toshkent ⇄ Namangan Taxi & Delivery Service
- * Framework: Telegraf 4.16.3
- * Database: SQLite (sqlite3)
- */
+
 
 const { Telegraf, Markup } = require('telegraf');
 
@@ -15,13 +11,7 @@ const bot = new Telegraf(BOT_TOKEN);
 
 
 
-db.serialize(() => {
-  db.run(`CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, language TEXT DEFAULT 'uz', joined_date TEXT)`);
-  db.run(`CREATE TABLE IF NOT EXISTS bookings (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, route TEXT, datetime TEXT, passengers TEXT, total_price TEXT, fullname TEXT, phone TEXT, prepay TEXT, created_at TEXT)`);
-  db.run(`CREATE TABLE IF NOT EXISTS parcels (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, route TEXT, description TEXT, phone TEXT, created_at TEXT)`);
-  db.run(`CREATE TABLE IF NOT EXISTS reviews (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, rating INTEGER, comment TEXT, created_at TEXT)`);
-  db.run(`CREATE TABLE IF NOT EXISTS complaints (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, text TEXT, created_at TEXT)`);
-});
+
 
 const userState = {};
 
