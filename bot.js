@@ -5,7 +5,7 @@
  */
 
 const { Telegraf, Markup } = require('telegraf');
-const sqlite3 = require('sqlite3').verbose();
+
 
 const BOT_TOKEN = '8923561969:AAELBftxJNjVgwuuueFHXQMjpmbNHePb4ow';
 const ADMIN_ID = 5148047459;
@@ -13,10 +13,7 @@ const ADMIN_ID = 5148047459;
 
 const bot = new Telegraf(BOT_TOKEN);
 
-const db = new sqlite3.Database('./bot_database.db', (err) => {
-  if (err) console.error('❌ Маʼlumotlar bazasini ochishda xatolik: ', err.message);
-  else console.log('✅ SQLite маʼlumotlar bazasiga ulandi.');
-});
+
 
 db.serialize(() => {
   db.run(`CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, language TEXT DEFAULT 'uz', joined_date TEXT)`);
