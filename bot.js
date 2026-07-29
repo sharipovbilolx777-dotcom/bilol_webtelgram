@@ -1,17 +1,50 @@
-
-
 const { Telegraf, Markup } = require('telegraf');
+const sqlite3 = require('sqlite3').verbose();
 
-
-const BOT_TOKEN = '7993407351:AAE4ORrWoe-16bO6rs6FFMGx5cC_5ofMeOA';
+const BOT_TOKEN = process.env.BOT_TOKEN || '7993407351:AAE4ORrWoe-16bO6rs6FFMGx5cC_5ofMeOA';
 const ADMIN_ID = 867717817;
 
+const bot = new Telegraf(BOT_TOKEN);
 
-const bot = new Telegraf("7993407351:AAE4ORrWoe-16bO6rs6FFMGx5cC_5ofMeOA");
+// Ma'lumotlar bazasiga ulanish (agar bo'lmasa yaratiladi)
+const db = new sqlite3.Database('./bot_database.db', (err) => {
+  if (err) {
+    console.error('Baza bilan xatolik:', err.message);
+  } else {
+    console.log('SQLite bazasiga muvaffaqiyatli ulandi.');
+  }
+});
 
+// Jadvalarni yaratish (agar oldin bo'lmasa)
+db.serialize(() => {
+  db.run(`CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY,
+    language TEXT,
+    joined_date TEXT
+  )`);
 
+  db.run(`CREATE TABLE IF NOT EXISTS bookings (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    route TEXT,
+    datetime TEXT,
+    passengers TEXT,
+    total_price TEXT,
+    fullname TEXT,
+    phone TEXT,
+    prepay TEXT,
+    created_at TEXT
+  )`);
 
-
+  db.run(`CREATE TABLE IF NOT EXISTS parcels (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    route TEXT,
+    description TEXT,
+    phone TEXT,
+    created_at TEXT
+  )`);
+});
 
 const userState = {};
 
@@ -353,10 +386,11 @@ async function finalizeBooking(ctx, userId, state, lang) {
     }
   );
 }
+
+// Botni ishga tushirish (Faqat bitta marta)
 bot.launch().then(() => {
-    console.log('Bot muvaffaqiyatli ishga tushdi!');
+    console.log('Бот ишга тушди!');
 });
 
-bot.launch().then(() => console.log('Бот ишга тушди!'));
 process.once('SIGINT', () => bot.stop('SIGINT'));
 process.once('SIGTERM', () => bot.stop('SIGTERM'));
