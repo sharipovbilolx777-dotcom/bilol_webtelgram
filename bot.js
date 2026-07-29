@@ -4,10 +4,10 @@ const { Telegraf, Markup } = require('telegraf');
 
 
 const BOT_TOKEN = '7993407351:AAE4ORrWoe-16bO6rs6FFMGx5cC_5ofMeOA';
-const ADMIN_ID = 5148047459;
+const ADMIN_ID = 867717817;
 
 
-const bot = new Telegraf(BOT_TOKEN);
+const bot = new Telegraf("7993407351:AAE4ORrWoe-16bO6rs6FFMGx5cC_5ofMeOA");
 
 
 
