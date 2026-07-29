@@ -366,6 +366,9 @@ async function finalizeBooking(ctx, userId, state, lang) {
     }
   );
 }
+bot.launch().then(() => {
+    console.log('Bot muvaffaqiyatli ishga tushdi!');
+});
 
 bot.launch().then(() => console.log('Бот ишга тушди!'));
 process.once('SIGINT', () => bot.stop('SIGINT'));
